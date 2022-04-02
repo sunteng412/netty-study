@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>netty-study</artifactId>
+        <groupId>com.qingxuan</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>netty-server</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.79</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.netty.echo.EchoServer</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <!--docker镜像相关的配置信息-->
+                <configuration>
+                    <imageName>${project.name}:strace-${project.version}</imageName>
+                    <!--Dockerfile文件位置-->
+                    <dockerDirectory>${project.basedir}/docker</dockerDirectory>
+                    <buildArgs>
+                        <exposePort>10000</exposePort>
+                    </buildArgs>
+                    <resources>
+                        <resource>
+                            <targetPath>/strace</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.spotify</groupId>-->
+<!--                <artifactId>docker-maven-plugin</artifactId>-->
+<!--                <version>1.0.0</version>-->
+<!--                &lt;!&ndash;docker镜像相关的配置信息&ndash;&gt;-->
+<!--                <configuration>-->
+<!--                    &lt;!&ndash;删除中间镜像&ndash;&gt;-->
+<!--                    <rm>true</rm>-->
+<!--                    &lt;!&ndash;镜像名，这里用工程名&ndash;&gt;-->
+<!--                    <imageName>${project.name}:${project.version}</imageName>-->
+<!--                    &lt;!&ndash;TAG,这里用工程版本号&ndash;&gt;-->
+<!--                    <imageTags>-->
+<!--                        <imageTag>${project.version}</imageTag>-->
+<!--                        <forceTags>true</forceTags>-->
+<!--                    </imageTags>-->
+<!--                    &lt;!&ndash;镜像的FROM，使用java官方镜像&ndash;&gt;-->
+<!--                    <baseImage>java:8u111-jdk</baseImage>-->
+<!--                    &lt;!&ndash;该镜像的容器启动后，直接运行spring boot工程&ndash;&gt;-->
+<!--                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar" ,"com.netty.echo.EchoServer"]</entryPoint>-->
+<!--                    &lt;!&ndash;构建镜像的配置信息&ndash;&gt;-->
+<!--                    <resources>-->
+<!--                        <resource>-->
+<!--                            <targetPath>/</targetPath>-->
+<!--                            <directory>${project.build.directory}</directory>-->
+<!--                            <include>${project.build.finalName}.jar</include>-->
+<!--                        </resource>-->
+<!--                    </resources>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+        </plugins>
+
+    </build>
+
+</project>
