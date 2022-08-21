@@ -22,6 +22,11 @@ RUN apt-get install -y strace
 RUN apt-get install -y netcat
 #安装netstat
 RUN apt-get install -y net-tools
+#vim
+#RUN apt-get install -y vim
+#gcc
+#RUN apt-get -y build-dep  gcc
+
 
 #设置时区
 RUN echo "Asia/Shanghai" > /etc/timezone
@@ -34,6 +39,7 @@ ARG MAIN_CLASS="com.netty.echo.EchoServer"
 
 ENV JAVA_OPTS="-Dnetty.port=$EXPOSE_PORT -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 EXPOSE $EXPOSE_PORT
+EXPOSE 5005
 
 #WORKDIR /
 #-ff 如果提供-o filename,则所有进程的跟踪结果输出到相应的filename.pid中,pid是各进程的进程号.

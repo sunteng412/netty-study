@@ -30,7 +30,7 @@ public class WatchServerFd {
         OsInfo osInfo = SystemUtil.getOsInfo();
         System.out.println("os:" + osInfo.getName());
         if (osInfo.isMac()){
-            file = new File("/Users/admin/ideaProject/study/netty-study/netty-server/log/fdWatch.txt");
+            file = new File("/Users/mrfox/docker/local/log/fdWatch.txt");
         } else {
             file = new File("/strace/fdWatch.txt");
         }

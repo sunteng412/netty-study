@@ -12,6 +12,8 @@
         <module>netty-server</module>
         <module>netty-client</module>
         <module>netty-common</module>
+        <module>./http/netty-http-server</module>
+        <module>http/netty-http-client</module>
     </modules>
 
     <properties>
