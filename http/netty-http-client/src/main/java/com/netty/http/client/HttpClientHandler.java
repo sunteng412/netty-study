@@ -5,10 +5,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
 /**
@@ -57,8 +54,15 @@ public class HttpClientHandler extends SimpleChannelInboundHandler<FullHttpRespo
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         System.out.println("channelActive");
-        FullHttpResponse fullHttpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_0,
-                HttpResponseStatus.CREATED);
-        ctx.writeAndFlush(fullHttpResponse);
+        DefaultFullHttpRequest fullHttpRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.GET,
+                "/test/http");
+        HttpHeaders headers = fullHttpRequest.headers();
+        headers.set(HttpHeaderNames.USER_AGENT, "RocketClient");
+        headers.set(HttpHeaderNames.ACCEPT, "*/*");
+        ctx.writeAndFlush(fullHttpRequest);
     }
+
+
+
+
 }

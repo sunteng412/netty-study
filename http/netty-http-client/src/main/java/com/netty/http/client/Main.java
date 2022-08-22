@@ -43,29 +43,30 @@ public class Main {
         try {
             Bootstrap b = new Bootstrap();
             b.group(group)
-                    //指 定 EventLoopGroup 以处理客户端事件；需要适用于 NIO 的实现
                     .channel(channelClass)
                     .remoteAddress(new InetSocketAddress(host, Integer.parseInt(port)))
-                    //适用于 NIO 传输的Channel 类型
                     .handler(new ChannelInitializer<Channel>() {
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            //在创建Channel时，向 ChannelPipeline中添加一个 EchoClientHandler 实例
-                            pipeline .addLast(new HttpClientCodec())
-                                    .addLast(new HttpObjectAggregator(10 * 1024 * 1024))
-                                    .addLast(new HttpContentDecompressor())
-                                    .addLast(new ChunkedWriteHandler());
-//                            //聚合 HTTP 消息
-//                            pipeline.addLast("codec", new HttpClientCodec());
-//                            //客户端可以通过提供以下头部信息来指示服务器它所支持的压缩格式：
-//                            //GET /encrypted-area HTTP/1.1
-//                            //Host: www.example.com
-//                            //Accept-Encoding: gzip, deflate
-//                            pipeline.addLast("decompressor", new HttpContentDecompressor());
-//                            //解码
-//                            pipeline.addLast("decoder", new HttpResponseDecoder());
-//                            pipeline.addLast("encoder", new HttpRequestEncoder());
+                            //聚合http消息片段
+//                            pipeline .addLast(new HttpClientCodec())
+//                                    .addLast(new HttpObjectAggregator(10 * 1024 * 1024))
+//                                    //支持压缩
+//                                    .addLast(new HttpContentDecompressor())
+//                                    .addLast(new ChunkedWriteHandler());
+
+                            //聚合 HTTP 消息
+                            pipeline.addLast("codec", new HttpClientCodec());
+                            //客户端可以通过提供以下头部信息来指示服务器它所支持的压缩格式：
+                            //GET /encrypted-area HTTP/1.1
+                            //Host: www.example.com
+                            //Accept-Encoding: gzip, deflate
+                            pipeline.addLast("decompressor", new HttpContentDecompressor());
+                            //解码
+                            pipeline.addLast("decoder", new HttpResponseDecoder());
+                            pipeline.addLast("aggregator",new HttpObjectAggregator(10 * 1024 * 1024));
+                            //pipeline.addLast("encoder", new HttpRequestEncoder());
                             pipeline.addLast("bizHandler", new HttpClientHandler());
                         }
                     });
