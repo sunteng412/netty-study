@@ -8,6 +8,9 @@
 
 #define MAX_EVENTS 1024
 
+/***
+ * 堵塞版本
+ * */
 int main() {
     // 创建一个socket
     int listen_fd = socket(AF_INET, SOCK_STREAM, 0);

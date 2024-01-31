@@ -27,7 +27,7 @@ public class EchoServer {
 
         final EchoServerHandler serverHandler = new EchoServerHandler();
         //创建EventLoopGroup
-        NioEventLoopGroup group = new NioEventLoopGroup(1, r -> {
+        NioEventLoopGroup group = new NioEventLoopGroup(4, r -> {
             return new Thread(r,"boss-1");
         });
         NioEventLoopGroup workGroup = new NioEventLoopGroup(1, r -> {

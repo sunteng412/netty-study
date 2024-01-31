@@ -12,7 +12,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.SneakyThrows;
 
 import java.net.InetSocketAddress;
-
+/**
+ * 打包docker 详见
+ * https://www.yuque.com/u2213645/cqbs2c/urygq0
+ * */
 public class EchoEpollServer {
 
     @SneakyThrows
