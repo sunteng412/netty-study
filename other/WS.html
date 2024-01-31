@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="search-container"><input type="text" class="search-input" value="" id="taskId" placeholder="发送">
+    <button class="search-button" type="button" id="searchBtn">连接/发送</button>
+    <button class="search-button" type="button" id="closeBtn">关闭</button>
+</div>
+<div id="tableContainer">
+<table >
+    <tbody id = 'dTable'>
+
+    </tbody>
+</table>
+</div>
+
+
+</body>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var ws = new WebSocket("wss://echo.websocket.org");
+        document.getElementById("searchBtn").addEventListener("click", function () {
+            if(ws.CLOSED){
+                ws.onopen = function(evt) {
+                    console.log("Connection open ...");
+                    ws.send("Hello WebSockets!");
+                };
+
+                ws.onmessage = function(evt) {
+                    console.log( "Received Message: " + evt.data);
+                    // 动态生成表单
+                    // if (tableContainer.hasChildNodes()) {
+                    //     tableContainer.innerHTML = "";
+                    // }
+
+                    var table = document.getElementById("dTable");
+                    table.setAttribute("style", "border: 1px solid #ccc;");
+
+                    var headerRow1 = document.createElement("tr");
+                    headerRow1.setAttribute("style", "background-color: #d0d0d0;")
+                    //headerRow1.innerHTML = " <tr><td>序号</td> <td>店铺名</td>  <td>任务数</td> <td>下个任务时间</td><td>操作</td></tr>"
+                    headerRow1.innerHTML = " <tr><td>" + evt.data + "</td></tr>"
+                    table.appendChild(headerRow1);
+
+                };
+
+                ws.onclose = function(evt) {
+                    console.log("Connection closed.");
+                };
+
+            } else {
+                var task = document.getElementById("taskId");
+                ws.send(((task.value !== null && task.value !== "") ? ( task.value) : "Hello WebSockets!"));
+            }
+        });
+
+
+
+        document.getElementById("closeBtn").addEventListener("click", function () {
+            //var task = document.getElementById("taskId");
+            ws.close();
+        });
+    });
+
+</script>
+</html>

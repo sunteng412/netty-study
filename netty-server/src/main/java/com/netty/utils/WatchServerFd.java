@@ -30,10 +30,12 @@ public class WatchServerFd {
         OsInfo osInfo = SystemUtil.getOsInfo();
         System.out.println("os:" + osInfo.getName());
         if (osInfo.isMac()){
-            file = new File("/Users/mrfox/docker/local/log/fdWatch.txt");
+            file = new File("~/docker/local/log/fdWatch.txt");
         } else {
             file = new File("/strace/fdWatch.txt");
         }
+
+        //判断有没有路径
 
         try {
             ClassPool cp = ClassPool.getDefault();

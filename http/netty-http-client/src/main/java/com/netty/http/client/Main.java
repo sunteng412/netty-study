@@ -22,7 +22,7 @@ public class Main {
     @SneakyThrows
     public static void main(String[] args) {
         String port = System.getProperty("netty.port", "8080");
-        String host = System.getProperty("netty.host", "127.0.0.1");
+        String host = System.getProperty("netty.host", "168.168.1.4");
         System.out.println("启动端口:" + port);
 
         EventLoopGroup group;

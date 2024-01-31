@@ -15,7 +15,7 @@ public class EchoClient {
 
     @SneakyThrows
     public static void main(String[] args) {
-        String port = System.getProperty("netty.port", "10000");
+        String port = System.getProperty("netty.port", "9999");
         String host = System.getProperty("netty.host", "127.0.0.1");
         System.out.println("启动端口:" + port);
 

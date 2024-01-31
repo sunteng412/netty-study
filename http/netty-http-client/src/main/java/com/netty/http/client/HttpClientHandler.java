@@ -44,7 +44,7 @@ public class HttpClientHandler extends SimpleChannelInboundHandler<FullHttpRespo
     public void channelActive(ChannelHandlerContext ctx) {
         System.out.println("channelActive");
         DefaultFullHttpRequest fullHttpRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.GET,
-                "/test/http");
+                "/test/testMaxHttpGet");
         HttpHeaders headers = fullHttpRequest.headers();
         headers.set(HttpHeaderNames.USER_AGENT, "RocketClient");
         headers.set(HttpHeaderNames.ACCEPT, "*/*");

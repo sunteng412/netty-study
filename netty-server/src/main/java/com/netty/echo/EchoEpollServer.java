@@ -33,7 +33,6 @@ public class EchoEpollServer {
             //创建ServerBootstrap
             ServerBootstrap b = new ServerBootstrap();
             b.group(group,workGroup)
-                    //指定所使用的 NIO传输 Channel
                     .channel(EpollServerSocketChannel.class)
                     //使用指定的端口设置套接字地址
                     .localAddress(new InetSocketAddress(Integer.parseInt(port)))
